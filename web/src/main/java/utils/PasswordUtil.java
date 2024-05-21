@@ -24,7 +24,7 @@ public class PasswordUtil {
         return hasher.hashToString(HASH_ROUND, password.toCharArray());
     }
 
-    public boolean hasMatch(String password, String hash) {
+    public boolean hasMatches(String password, String hash) {
         return verifyer.verify(password.toCharArray(), hash.toCharArray()).verified;
     }
 }
