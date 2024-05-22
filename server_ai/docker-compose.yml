@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_DB=network-programming
+      - POSTGRES_USER=yvmOiJUG
+      - POSTGRES_PASSWORD=lQh3aAsApBHGXceY
+    ports:
+      - "6003:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres:
+    driver: local
