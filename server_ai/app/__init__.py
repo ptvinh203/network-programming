@@ -1,5 +1,4 @@
 import os
-import threading
 from uuid import uuid4
 
 from deepface import DeepFace
@@ -31,13 +30,12 @@ def app_process(base_img, compare_img):
     compare_img.save(compare_img_dir)
 
     # Verify images
-    result = DeepFace.verify(
+    return DeepFace.verify(
         base_img_dir,
         compare_img_dir,
         model_name="Facenet512",
         enforce_detection=False,
     )
-    print(result)
 
 
 @app_bp.route("", methods=["POST"])
@@ -49,12 +47,8 @@ def predict():
         if not (base_img and compare_img):
             return AppResponse.bad_request("Missing required fields")
 
-        key = uuid4().hex
-        t1 = threading.Thread(target=app_process, args=(base_img, compare_img))
-        t1.start()
-
         return AppResponse.success(
-            data={"key": key},
+            data=app_process(base_img, compare_img),
             message="Received task successfully",
         )
     except Exception as e:
