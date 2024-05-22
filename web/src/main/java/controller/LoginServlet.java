@@ -4,24 +4,50 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.bo.UserBo;
+import model.dto.UserDto;
+import utils.UserSessionUtil;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    private UserBo userBo = UserBo.getInstance();
+    private final UserBo userBo = UserBo.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (UserSessionUtil.ensureUser(req)) {
+            resp.sendRedirect("home");
+            return;
+        }
+        req.getRequestDispatcher("index.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        try {
+            UserDto user = userBo.login(email, password);
+            if (user == null) {
+                resp.sendRedirect("?error-message=Login failed! Please check your email and password again.");
+                return;
+            }
+            Cookie emailCookie = new Cookie("email", email);
+            Cookie passwordCookie = new Cookie("password", password);
+            emailCookie.setMaxAge(60 * 60 * 24 * 30);
+            passwordCookie.setMaxAge(60 * 60 * 24 * 30);
+            resp.addCookie(emailCookie);
+            resp.addCookie(passwordCookie);
+            resp.sendRedirect("home");
+        } catch (Exception e) {
+            resp.sendRedirect(String.format("?error-message=%s", e.getMessage()));
+            return;
+        }
     }
 
 }

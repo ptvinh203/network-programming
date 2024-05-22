@@ -21,7 +21,7 @@ public class UserDto extends BaseDto<UserBean> {
     private Timestamp createdAt;
 
     @Override
-    UserBean toBean() {
+    public UserBean toBean() {
         return UserBean.builder()
                 .id(id)
                 .email(email)
@@ -31,7 +31,7 @@ public class UserDto extends BaseDto<UserBean> {
     }
 
     @Override
-    UserDto fromBean(UserBean bean) {
+    public UserDto fromBean(UserBean bean) {
         return UserDto.builder()
                 .id(bean.getId())
                 .email(bean.getEmail())

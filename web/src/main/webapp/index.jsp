@@ -11,8 +11,18 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <script>
+      function onLoad() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const message = urlParams.get("error-message");
+        if (message) {
+          document.getElementById("error-message").innerHTML = message;
+        }
+      }
+    </script>
   </head>
-  <body>
+  <body onload="onLoad()">
     <div
       class="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8"
     >
@@ -23,7 +33,7 @@
       </div>
       <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form class="space-y-6" action="/login" method="POST">
+          <form class="space-y-6" action="/web/login" method="POST">
             <div>
               <label
                 for="email"
@@ -61,29 +71,12 @@
                 />
               </div>
             </div>
-
-            <div class="flex items-center justify-between">
-              <div class="flex items-center">
-                <input
-                  id="remember_me"
-                  name="remember_me"
-                  type="checkbox"
-                  class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                />
-                <label
-                  for="remember_me"
-                  class="ml-2 block text-sm text-gray-900"
-                >
-                  Remember me
-                </label>
-              </div>
+            <div id="error-message" class="text-red-500"></div>
+            <div class="flex items-center justify-end">
               <div class="text-sm">
-                <a
-                  href="#"
-                  class="font-medium text-indigo-600 hover:text-indigo-500"
-                >
+                <span class="font-medium text-indigo-600 hover:text-indigo-500">
                   Forgot your password?
-                </a>
+                </span>
               </div>
             </div>
 
@@ -94,6 +87,18 @@
               >
                 Sign in
               </button>
+            </div>
+
+            <div class="text-sm text-center">
+              <span class="font-medium text-gray-700">
+                Don't have an account?
+                <a
+                  href="/web/register"
+                  class="font-medium text-indigo-600 hover:text-indigo-500"
+                >
+                  Register
+                </a>
+              </span>
             </div>
           </form>
         </div>

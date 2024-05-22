@@ -24,7 +24,7 @@ public class RequesDto extends BaseDto<RequestBean> {
     private Timestamp createdAt;
 
     @Override
-    RequestBean toBean() {
+    public RequestBean toBean() {
         return RequestBean.builder()
                 .id(id)
                 .user(user.toBean())
@@ -36,7 +36,7 @@ public class RequesDto extends BaseDto<RequestBean> {
     }
 
     @Override
-    RequesDto fromBean(RequestBean bean) {
+    public RequesDto fromBean(RequestBean bean) {
         return RequesDto.builder()
                 .id(bean.getId())
                 .user(new UserDto().fromBean(bean.getUser()))

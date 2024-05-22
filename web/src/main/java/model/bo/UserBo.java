@@ -1,6 +1,7 @@
 package model.bo;
 
 import model.bean.UserBean;
+import model.dto.UserDto;
 import repository.UserRepository;
 import utils.PasswordUtil;
 
@@ -25,7 +26,19 @@ public class UserBo {
     private PasswordUtil passwordUtil;
 
     // Business Logic
-    public void register(String email, String password, String name) {
+    public UserDto login(String email, String password) throws Exception {
+        try {
+            UserBean user = userRepository.findByEmail(email);
+            if (user != null && passwordUtil.hasMatches(password, user.getPassword())) {
+                return new UserDto().fromBean(user);
+            }
+            throw new Exception("Email or password is incorrect!");
+        } catch (Exception e) {
+            throw new Exception("Account is not exist!");
+        }
+    }
+
+    public void register(String email, String password, String name) throws Exception {
         try {
             userRepository.create(UserBean.builder()
                     .email(email)
@@ -34,19 +47,6 @@ public class UserBo {
                     .build());
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    public UserBean login(String email, String password) {
-        try {
-            UserBean user = userRepository.findByEmail(email);
-            if (user != null && passwordUtil.hasMatches(password, user.getPassword())) {
-                return user;
-            }
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
     }
 }
