@@ -1,15 +1,15 @@
 CREATE TABLE public.requests (
     id character varying(300) NOT NULL,
     user_id character varying(300) NOT NULL,
-    first_image bytea NOT NULL,
-    second_image bytea NOT NULL,
+    first_image character varying(300) NOT NULL,
+    second_image character varying(300) NOT NULL,
     result boolean NOT NULL,
     distance numeric NOT NULL,
     created_at timestamp with time zone NOT NULL
 );
 
 
-ALTER TABLE public.requests OWNER TO yvmOiJUG;
+ALTER TABLE public.requests OWNER TO "yvmOiJUG";
 
 CREATE TABLE public.users (
     id character varying(300) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE public.users (
     created_at timestamp with time zone NOT NULL
 );
 
-ALTER TABLE public.users OWNER TO yvmOiJUG;
+ALTER TABLE public.users OWNER TO "yvmOiJUG";
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT email_unique_key UNIQUE (email);
