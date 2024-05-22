@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       var preview_base_img = function (event) {
-        var output = document.getElementById('base_img_preview');
+        var output = document.getElementById("base_img_preview");
         output.src = URL.createObjectURL(event.target.files[0]);
         output.onload = function () {
           URL.revokeObjectURL(output.src);
@@ -17,7 +17,7 @@
 
     <script>
       var preview_compare_img = function (event) {
-        var output = document.getElementById('compare_img_preview');
+        var output = document.getElementById("compare_img_preview");
         output.src = URL.createObjectURL(event.target.files[0]);
         output.onload = function () {
           URL.revokeObjectURL(output.src);
@@ -35,7 +35,9 @@
           class="flex-1 h-full gap-1 flex flex-col item-start border-r mr-6 pr-6"
         >
           <form
-            action="/web/home"
+            action="/web/request"
+            method="POST"
+            enctype="multipart/form-data"
             class="w-full flex flex-col justify-between item-center gap-4"
           >
             <h3 class="text-2xl font-semibold">Upload images</h3>
@@ -122,8 +124,7 @@
         <div class="w-1/3 flex flex-col gap-4">
           <div class="flex flex-row">
             <h3 class="text-2xl font-semibold">History</h3>
-
-            <button>Log out</button>
+            <a href="/web/home?logout=true">Log out</a>
           </div>
 
           <div>

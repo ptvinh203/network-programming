@@ -1,6 +1,5 @@
 package model.dto;
 
-import java.io.File;
 import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
@@ -15,13 +14,18 @@ import model.bean.RequestBean;
 @Setter
 @Getter
 @Builder
-public class RequesDto extends BaseDto<RequestBean> {
+public class RequestDto extends BaseDto<RequestBean> {
     private String id;
     private UserDto user;
-    private File firstImage;
-    private File secondImage;
-    private boolean result;
+    private String firstImage;
+    private String secondImage;
+    private Boolean result;
+    private Double distance;
     private Timestamp createdAt;
+
+    public boolean isResult() {
+        return this.result != null && this.result;
+    }
 
     @Override
     public RequestBean toBean() {
@@ -31,18 +35,20 @@ public class RequesDto extends BaseDto<RequestBean> {
                 .firstImage(firstImage)
                 .secondImage(secondImage)
                 .result(result)
+                .distance(distance)
                 .createdAt(createdAt)
                 .build();
     }
 
     @Override
-    public RequesDto fromBean(RequestBean bean) {
-        return RequesDto.builder()
+    public RequestDto fromBean(RequestBean bean) {
+        return RequestDto.builder()
                 .id(bean.getId())
                 .user(new UserDto().fromBean(bean.getUser()))
                 .firstImage(bean.getFirstImage())
                 .secondImage(bean.getSecondImage())
-                .result(bean.isResult())
+                .result(bean.getResult())
+                .distance(bean.getDistance())
                 .createdAt(bean.getCreatedAt())
                 .build();
     }

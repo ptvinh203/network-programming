@@ -1,12 +1,7 @@
-<%@ page language = "java"%>
-<%@ page import="utils.*" %>
-<%@ page import="model.dto.*" %>
-<%
-  UserDto user = (UserDto) session.getAttribute("current_user");
-  if (user != null) {
-    response.sendRedirect("/web/home");
-  }
-%>
+<%@ page language = "java"%> <%@ page import="utils.*" %> <%@ page
+import="model.dto.*" %> <% UserDto user = (UserDto)
+session.getAttribute("current_user"); if (user != null) {
+response.sendRedirect("/web/home"); } %>
 
 <html lang="en">
   <head>

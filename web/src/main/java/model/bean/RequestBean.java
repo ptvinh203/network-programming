@@ -1,6 +1,5 @@
 package model.bean;
 
-import java.io.File;
 import java.sql.Timestamp;
 
 import javax.persistence.*;
@@ -26,16 +25,23 @@ public class RequestBean extends BaseBean {
     private UserBean user;
 
     @Column(name = "first_image")
-    private File firstImage;
+    private String firstImage;
 
     @Column(name = "second_image")
-    private File secondImage;
+    private String secondImage;
 
     @Column(name = "result")
-    private boolean result;
+    private Boolean result;
+
+    @Column(name = "distance")
+    private Double distance;
 
     @Column(name = "created_at")
     private Timestamp createdAt;
+
+    public boolean isResult() {
+        return this.result != null && this.result;
+    }
 
     @Override
     public void generateId() {
