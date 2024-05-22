@@ -1,6 +1,5 @@
 package utils;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,21 +12,21 @@ public class UserSessionUtil {
 
     static public boolean ensureUser(HttpServletRequest req) {
         HttpSession session = req.getSession();
-        Cookie emailCookie = CookieUtil.getCookie(req, "email");
-        Cookie passwordCookie = CookieUtil.getCookie(req, "password");
+        String email = (String) session.getAttribute("email");
+        String password = (String) session.getAttribute("password");
 
-        if (emailCookie == null) {
+        if (email == null) {
             session.setAttribute("email", null);
             return false;
         }
 
-        if (passwordCookie == null) {
+        if (password == null) {
             session.setAttribute("password", null);
             return false;
         }
 
         try {
-            UserDto user = userBo.login(emailCookie.getValue(), passwordCookie.getValue());
+            UserDto user = userBo.login(email, password);
             if (user == null) {
                 session.setAttribute("email", null);
                 session.setAttribute("password", null);
