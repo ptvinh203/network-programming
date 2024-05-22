@@ -27,7 +27,7 @@
   </head>
 
   <body>
-    <div class="min-h-screen w-full flex flex-col bg-gray-300 text-base">
+    <div class="min-h-screen w-full flex flex-col bg-gray-300 text-base ">
       <div
         class="mx-auto w-full max-w-7xl h-full p-10 bg-white flex flex-row rounded-md my-4"
       >
@@ -44,7 +44,7 @@
 
             <div class="w-full">
               <div
-                class="flex flex-col rounded-lg shadow-sm p-4 gap-4 item-start border"
+                class="flex flex-col rounded-lg shadow-lg p-8 gap-4 item-start border border-gray-200"
               >
                 <div class="flex flex-row item-center justify-between gap-4">
                   <label for="base_img" class="font-semibold capitalize"
@@ -80,54 +80,56 @@
 
             <div class="flex item-center justify-center">
               <button
-                type="submit"
-                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
+              type="submit"
+              class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
               >
-                Submit
-              </button>
+              Submit
+            </button>
             </div>
           </form>
 
           <div id="preview" class="flex flex-col gap-4">
             <h3 class="text-2xl font-semibold">Preview</h3>
+            <div class="w-full flex flex-col p-10 gap-4 item-start">
 
-            <div class="flex flex-col item-center justify-between gap-3">
-              <div class="flex-1 flex item-center justify-start">
-                <img
-                  id="base_img_preview"
-                  src="./static/no-image.png"
-                  alt="Base image"
-                  class="w-2/3 h-auto rounded-md"
-                />
-              </div>
+              <div class="flex flex-col item-center justify-between gap-3">
+                <div class="flex-1 flex item-center justify-start">
+                  <img
+                    id="base_img_preview"
+                    src="./static/no-image.png"
+                    alt="Base image"
+                    class="w-2/3 h-auto rounded-md"
+                  />
+                </div>
 
-              <div class="w-8 h-auto m-auto rotate-90">
-                <img
-                  src="./static/compare.png"
-                  alt="Compare icon"
-                  class="object-cover"
-                />
-              </div>
+                <div class="w-8 h-auto m-auto rotate-90">
+                  <img
+                    src="./static/compare.png"
+                    alt="Compare icon"
+                    class="object-cover font-weight-bold"
+                  />
+                </div>
 
-              <div class="flex-1 flex item-center justify-end">
-                <img
-                  id="compare_img_preview"
-                  src="./static/no-image.png"
-                  alt="Compare image"
-                  class="w-2/3 h-auto rounded-md"
-                />
+                <div class="flex-1 flex item-center justify-end">
+                  <img
+                    id="compare_img_preview"
+                    src="./static/no-image.png"
+                    alt="Compare image"
+                    class="w-2/3 h-auto rounded-md"
+                  />
+                </div>
               </div>
-            </div>
+             </div> 
           </div>
         </div>
 
-        <div class="w-1/3 flex flex-col gap-4">
-          <div class="flex flex-row">
+        <div class="w-3/12 flex flex-col rounded-lg shadow-lg p-4 gap-4 item-start border border-gray-200">
+          <div class="flex flex-row p-4">
             <h3 class="text-2xl font-semibold">History</h3>
             <a href="/web/home?logout=true">Log out</a>
           </div>
-
-          <div>
+        
+          <div class="px-4">
             <div>
               <span>Created at</span>
             </div>
