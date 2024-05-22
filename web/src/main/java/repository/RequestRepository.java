@@ -2,6 +2,10 @@ package repository;
 
 import model.bean.RequestBean;
 
+import java.util.List;
+
+import org.hibernate.Session;
+
 public class RequestRepository extends BaseRepository<RequestBean, String> {
 
     // Singleton
@@ -18,4 +22,11 @@ public class RequestRepository extends BaseRepository<RequestBean, String> {
     }
 
     // Methods
+    public List<RequestBean> getAllByUserId(String userId) {
+        try (Session session = sessionFactory.openSession()) {
+            return session
+                    .createQuery("FROM RequestBean r WHERE r.user.id = :userId", RequestBean.class)
+                    .setParameter("userId", userId).getResultList();
+        }
+    }
 }

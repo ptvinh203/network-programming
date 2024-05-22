@@ -1,3 +1,8 @@
+<%@page import="model.dto.*"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,26 +12,33 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       var preview_base_img = function (event) {
-        var output = document.getElementById('base_img_preview');
+        var output = document.getElementById("base_img_preview");
         output.src = URL.createObjectURL(event.target.files[0]);
         output.onload = function () {
           URL.revokeObjectURL(output.src);
         };
       };
-    </script>
 
-    <script>
       var preview_compare_img = function (event) {
-        var output = document.getElementById('compare_img_preview');
+        var output = document.getElementById("compare_img_preview");
         output.src = URL.createObjectURL(event.target.files[0]);
         output.onload = function () {
           URL.revokeObjectURL(output.src);
         };
+      };
+
+      var onLoad = function () {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const message = urlParams.get("error-message");
+        if (message) {
+          alert(message);
+        }
       };
     </script>
   </head>
 
-  <body>
+  <body onload="onLoad()">
     <div class="min-h-screen w-full flex flex-col bg-gray-300 text-base">
       <div
         class="mx-auto w-full max-w-7xl h-full p-10 bg-white flex flex-row rounded-md my-4"
@@ -126,31 +138,48 @@
         <div class="w-2/5 flex flex-col gap-4 item-start">
           <div class="flex flex-row">
             <h3 class="text-2xl font-semibold">History</h3>
-            <a href="/web/home?logout=true">Log out</a>
+            <a
+              href="/web/home?logout=true"
+              class="ml-auto bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+              >Log out</a
+            >
           </div>
 
           <!-- Loop -->
-          <div class="p-2 flex flex-col border-b">
-            <div class="flex flex-row gap-2 item-center justify-between">
-              <div>
-                <img src="./static/no-image.png" class="h-32 w-auto" />
+          <%
+            List<RequestDto> requestDtoList = (List<RequestDto>)request.getSession().getAttribute("requestDtoList");
+            if (requestDtoList != null && requestDtoList.size () >0) {
+              for (RequestDto requestDto : requestDtoList) {
+
+          %>
+            <div><%= requestDto.getFirstImage()%></div>
+            <div class="p-2 flex flex-col border-b">
+              <div class="flex flex-row gap-2 item-center justify-between">
+                <div>
+                  <img src=<%= requestDto.getFirstImage()%> class="h-32 w-auto" />
+                </div>
+
+                <div class="flex item-center justify-center">
+                  <img src="./static/compare.png" class="h-8 w-auto m-auto" />
+                </div>
+
+                <div>
+                  <img src=<%= requestDto.getSecondImage()%> class="h-32 w-auto" />
+                </div>
               </div>
 
-              <div class="flex item-center justify-center">
-                <img src="./static/compare.png" class="h-8 w-auto m-auto" />
-              </div>
-
-              <div>
-                <img src="./static/no-image.png" class="h-32 w-auto" />
+              <div class="flex flex-row gap-2 item-center justify-between">
+                <p>Result:</p>
+                <p>Distance:</p>
               </div>
             </div>
-
-            <div class="flex flex-row gap-2 item-center justify-between">
-              <p>Result: True</p>
-              <p>Distance: 0.812</p>
-            </div>
-          </div>
-          <!-- End of loop -->
+          <%
+              }
+            } else {
+          %>
+              <div class="">No history </div>
+          <% } %>
+          <!--  End of loop -->
         </div>
       </div>
     </div>

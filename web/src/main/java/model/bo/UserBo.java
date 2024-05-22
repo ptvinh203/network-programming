@@ -22,8 +22,8 @@ public class UserBo {
     }
 
     // Dependency Injection
-    private UserRepository userRepository;
-    private PasswordUtil passwordUtil;
+    private final UserRepository userRepository;
+    private final PasswordUtil passwordUtil;
 
     // Business Logic
     public UserDto login(String email, String password) throws Exception {

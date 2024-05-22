@@ -8,11 +8,21 @@ import java.io.OutputStream;
 
 import javax.servlet.http.Part;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import model.bean.RequestBean;
 import model.bean.UserBean;
 import model.dto.RequestDto;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import repository.RequestRepository;
 import utils.CommonConstant;
+import java.util.Map;
+import java.util.List;
 
 public class RequestBo {
     // Singleton
@@ -20,6 +30,7 @@ public class RequestBo {
 
     private RequestBo() {
         requestRepository = RequestRepository.getInstance();
+        client = new OkHttpClient().newBuilder().build();
     }
 
     public static RequestBo getInstance() {
@@ -29,9 +40,11 @@ public class RequestBo {
     }
 
     // Dependency Injection
-    private RequestRepository requestRepository;
+    private final RequestRepository requestRepository;
+    private final OkHttpClient client;
 
     // Business Logic
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public RequestDto create(String userId, Part firstImage, Part secondImage) throws Exception {
         OutputStream firstImageOut = null;
         InputStream firstImageIn = null;
@@ -64,6 +77,38 @@ public class RequestBo {
                             .result(null)
                             .distance(null)
                             .build());
+
+            // Send request to server ai
+            new Thread(() -> {
+                try {
+                    RequestBody requestBody = new MultipartBody.Builder()
+                            .setType(MultipartBody.FORM)
+                            .addFormDataPart("base_img", "base_img",
+                                    RequestBody.create(MediaType.parse("image/*"), firstFile))
+                            .addFormDataPart("compare_img", "compare_img",
+                                    RequestBody.create(MediaType.parse("image/*"), secondFile))
+                            .build();
+                    Request request = new Request.Builder()
+                            .url(CommonConstant.SERVER_AI_URL)
+                            .post(requestBody)
+                            .addHeader("Content-Type", "multipart/form-data")
+                            .build();
+                    Response execute = client.newCall(request).execute();
+
+                    // Read the response body once
+                    String responseBody = execute.body().string();
+
+                    // Convert to map
+                    ObjectMapper mapper = new ObjectMapper();
+                    Map<String, Object> response = mapper.readValue(responseBody, Map.class);
+                    result.setDistance((Double) response.get("distance"));
+                    result.setResult((Boolean) response.get("result"));
+                    requestRepository.update(result);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
             return new RequestDto().fromBean(result);
         } catch (FileNotFoundException e) {
             throw new Exception(
@@ -88,6 +133,15 @@ public class RequestBo {
                     requestDto.toBean());
             return new RequestDto().fromBean(result);
         } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public List<RequestDto> getAllByUserId(String userId) throws Exception {
+        try {
+            return requestRepository.getAllByUserId(userId).stream().map(e -> new RequestDto().fromBean(e)).toList();
+        } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         }
     }
