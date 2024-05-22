@@ -1,54 +1,39 @@
+import os
 from datetime import datetime
 
-from flask import Flask, jsonify
+from flask import Flask, send_from_directory
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
 
 from app import app_bp
-from utils.environment import AppEnv
 
 app = None
-db = None
+STORAGE_DIR = os.path.join(os.getcwd(), "storage")
 
 
-def create_app() -> tuple[Flask, SQLAlchemy]:
+def create_app() -> Flask:
     # Initialize the Flask app
     app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = AppEnv.SQLALCHEMY_DATABASE_URI
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     CORS(app)
 
-    # Initialize the SQLAlchemy database
-    db = SQLAlchemy(app)
+    # General API
+    @app.route("/<path:filename>", methods=["GET"])
+    def send_image(filename):
+        return send_from_directory(STORAGE_DIR, filename)
 
     # Register the blueprint
     app.register_blueprint(app_bp)
 
-    return app, db
+    return app
 
 
-def get_instance() -> tuple[Flask, SQLAlchemy]:
-    global app, db
+def get_instance() -> Flask:
+    global app
 
-    if (app is None) or (db is None):
-        app, db = create_app()
+    if app is None:
+        app = create_app()
 
-    return app, db
+    return app
 
 
 def get_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M")
-
-
-class AppResponse:
-    @staticmethod
-    def success(data: dict = {}, message: str = ""):
-        return jsonify({"success": True, "data": data, "message": message}), 200
-
-    @staticmethod
-    def bad_request(message: str):
-        return jsonify({"success": False, "message": message}), 400
-
-    @staticmethod
-    def server_error(err: Exception):
-        return jsonify({"success": False, "error": str(err)}), 500

@@ -8,16 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import utils.UserSessionUtil;
-
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!UserSessionUtil.ensureUser(req)) {
-            resp.sendRedirect(".");
-            return;
-        }
+        // if (!UserSessionUtil.ensureUser(req)) {
+        // resp.sendRedirect(".");
+        // return;
+        // }
         req.getRequestDispatcher("home.jsp").forward(req, resp);
     }
 }

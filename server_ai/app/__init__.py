@@ -2,20 +2,12 @@ import os
 from uuid import uuid4
 
 from deepface import DeepFace
-from flask import Blueprint, request, send_from_directory
+from flask import Blueprint, request
 
-from utils import AppResponse, get_instance
+from utils.response import AppResponse
 
-app, _ = get_instance()
-
-app_bp = Blueprint("app", __name__, url_prefix="/api/v1/app")
-
+app_bp = Blueprint("app", __name__, url_prefix="/api/v1")
 STORAGE_DIR = os.path.join(os.getcwd(), "storage")
-
-
-@app.route("/<path:filename>", methods=["GET"])
-def send_image(filename):
-    return send_from_directory(STORAGE_DIR, filename)
 
 
 def app_process(base_img, compare_img):
@@ -49,7 +41,7 @@ def predict():
 
         return AppResponse.success(
             data=app_process(base_img, compare_img),
-            message="Received task successfully",
+            message="Processed task successfully.",
         )
     except Exception as e:
         return AppResponse.server_error(e)
