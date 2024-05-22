@@ -17,7 +17,6 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println(userBo.login("ptvinh203@gmail.com", "123456Aa"));
     }
 
     @Override

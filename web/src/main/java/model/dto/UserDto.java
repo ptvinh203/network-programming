@@ -1,5 +1,7 @@
 package model.dto;
 
+import java.sql.Timestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,12 +17,16 @@ import model.bean.UserBean;
 public class UserDto extends BaseDto<UserBean> {
     private String id;
     private String email;
+    private String name;
+    private Timestamp createdAt;
 
     @Override
     UserBean toBean() {
         return UserBean.builder()
                 .id(id)
                 .email(email)
+                .name(name)
+                .createdAt(createdAt)
                 .build();
     }
 
@@ -29,6 +35,8 @@ public class UserDto extends BaseDto<UserBean> {
         return UserDto.builder()
                 .id(bean.getId())
                 .email(bean.getEmail())
+                .name(bean.getName())
+                .createdAt(bean.getCreatedAt())
                 .build();
     }
 

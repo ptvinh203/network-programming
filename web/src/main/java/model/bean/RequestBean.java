@@ -1,5 +1,6 @@
 package model.bean;
 
+import java.io.File;
 import java.sql.Timestamp;
 
 import javax.persistence.*;
@@ -14,20 +15,24 @@ import lombok.*;
 @Getter
 @Builder
 @Entity
-@Table(name = "users")
-public class UserBean extends BaseBean {
+@Table(name = "requests")
+public class RequestBean extends BaseBean {
     @Id
     @Column(name = "id")
     private String id;
 
-    @Column(name = "email")
-    private String email;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserBean user;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "first_image")
+    private File firstImage;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "second_image")
+    private File secondImage;
+
+    @Column(name = "result")
+    private boolean result;
 
     @Column(name = "created_at")
     private Timestamp createdAt;

@@ -25,11 +25,12 @@ public class UserBo {
     private PasswordUtil passwordUtil;
 
     // Business Logic
-    public void register(String email, String password) {
+    public void register(String email, String password, String name) {
         try {
             userRepository.create(UserBean.builder()
                     .email(email)
                     .password(passwordUtil.encode(password))
+                    .name(name)
                     .build());
         } catch (Exception e) {
             e.printStackTrace();

@@ -8,9 +8,9 @@
 
         <!-- Connection settings -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/ltm_web</property>
-        <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">123456Aa</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:6003/network-programming</property>
+        <property name="hibernate.connection.username">yvmOiJUG</property>
+        <property name="hibernate.connection.password">lQh3aAsApBHGXceY</property>
 
         <!-- JDBC connection pool settings -->
         <property name="hibernate.c3p0.min_size">5</property>
@@ -30,6 +30,6 @@
 
         <!-- Annotated entity classes -->
         <mapping class="model.bean.UserBean"/>
-        
+        <mapping class="model.bean.RequestBean"/>
     </session-factory>
 </hibernate-configuration>
