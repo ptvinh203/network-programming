@@ -3,8 +3,8 @@ CREATE TABLE public.requests (
     user_id character varying(300) NOT NULL,
     first_image character varying(300) NOT NULL,
     second_image character varying(300) NOT NULL,
-    result boolean NOT NULL,
-    distance numeric NOT NULL,
+    result boolean ,
+    distance numeric ,
     created_at timestamp with time zone NOT NULL
 );
 
