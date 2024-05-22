@@ -13,4 +13,6 @@ class AppEnv:
 
     load_dotenv(find_dotenv())
 
+    FLASK_ENV = os.environ.get("FLASK_ENV", "development")
+
     SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI", "")
