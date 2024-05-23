@@ -26,7 +26,7 @@ def app_process(base_img, compare_img):
         compare_img_dir,
         enforce_detection=False,
         model_name="Facenet512",
-        detector_backend="yolov8",
+        detector_backend="retinaface",
         distance_metric="euclidean_l2",
     )
 
