@@ -1,6 +1,6 @@
 venv/
 env/
-storage/
 .env
 __pycache__/
 **/*.pyc
+storage/

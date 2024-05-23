@@ -1,10 +1,9 @@
 import os
 from datetime import datetime
 
+from app import app_bp
 from flask import Flask, send_from_directory
 from flask_cors import CORS
-
-from app import app_bp
 
 app = None
 STORAGE_DIR = os.path.join(os.getcwd(), "storage")
@@ -18,6 +17,9 @@ def create_app() -> Flask:
     # General API
     @app.route("/<path:filename>", methods=["GET"])
     def send_image(filename):
+        if filename == "no-image.png":
+            return send_from_directory(os.getcwd(), filename)
+
         return send_from_directory(STORAGE_DIR, filename)
 
     # Register the blueprint

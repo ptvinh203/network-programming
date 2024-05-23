@@ -14,10 +14,12 @@ def app_process(base_img, compare_img):
         os.mkdir(STORAGE_DIR)
 
     # Save images
-    base_img_dir = os.path.join(STORAGE_DIR, f"{uuid4().hex}.png")
+    base_img_filename = f"{uuid4().hex}.png"
+    base_img_dir = os.path.join(STORAGE_DIR, base_img_filename)
     base_img.save(base_img_dir)
 
-    compare_img_dir = os.path.join(STORAGE_DIR, f"{uuid4().hex}.png")
+    compare_img_filename = f"{uuid4().hex}.png"
+    compare_img_dir = os.path.join(STORAGE_DIR, compare_img_filename)
     compare_img.save(compare_img_dir)
 
     # Verify images
@@ -31,6 +33,8 @@ def app_process(base_img, compare_img):
     )
 
     return {
+        "base_img": base_img_filename,
+        "compare_img": compare_img_filename,
         "verified": result.get("verified", False),
         "distance": round(result.get("distance", 0), 3),
     }
