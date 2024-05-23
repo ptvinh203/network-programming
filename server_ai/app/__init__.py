@@ -49,9 +49,10 @@ def predict():
         if not (base_img and compare_img):
             return AppResponse.bad_request("Missing required fields")
 
-        return AppResponse.success(
+        return AppResponse.custom(
             data=app_process(base_img, compare_img),
             message="Processed task successfully.",
         )
+
     except Exception as e:
         return AppResponse.server_error(e)
