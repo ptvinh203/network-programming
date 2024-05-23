@@ -32,7 +32,9 @@ public class RequestBo {
     private RequestBo() {
         requestRepository = RequestRepository.getInstance();
         client = new OkHttpClient.Builder()
-                .connectTimeout(0, TimeUnit.MILLISECONDS)
+                .connectTimeout(2, TimeUnit.HOURS)
+                .readTimeout(2, TimeUnit.HOURS)
+                .writeTimeout(2, TimeUnit.HOURS)
                 .build();
     }
 
@@ -54,6 +56,12 @@ public class RequestBo {
         OutputStream secondImageOut = null;
         InputStream secondImageIn = null;
         try {
+            // Create image storage folder
+            File imageStorageDir = new File(CommonConstant.IMAGE_STORAGE_FOLDER);
+            if (!imageStorageDir.exists()) {
+                imageStorageDir.mkdirs();
+            }
+
             // Save images
             File firstFile = new File(CommonConstant.IMAGE_STORAGE_FOLDER + File.separator + getFileName(firstImage));
             firstImageOut = new FileOutputStream(firstFile);
