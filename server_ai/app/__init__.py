@@ -2,7 +2,7 @@ import os
 from uuid import uuid4
 
 from deepface import DeepFace
-from flask import Blueprint, request
+from flask import Blueprint, jsonify, request
 from utils.response import AppResponse
 
 app_bp = Blueprint("app", __name__, url_prefix="/api/v1")
@@ -49,10 +49,7 @@ def predict():
         if not (base_img and compare_img):
             return AppResponse.bad_request("Missing required fields")
 
-        return AppResponse.custom(
-            data=app_process(base_img, compare_img),
-            message="Processed task successfully.",
-        )
+        return jsonify(app_process(base_img, compare_img)), 200
 
     except Exception as e:
         return AppResponse.server_error(e)
