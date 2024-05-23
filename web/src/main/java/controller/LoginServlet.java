@@ -12,11 +12,21 @@ import javax.servlet.http.HttpServletResponse;
 import model.bo.UserBo;
 import model.dto.UserDto;
 import utils.CommonConstant;
+import utils.UserSessionUtil;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
     private final UserBo userBo = UserBo.getInstance();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (!UserSessionUtil.ensureUser(req, resp)) {
+            resp.sendRedirect(".");
+            return;
+        }
+        resp.sendRedirect("home");
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
