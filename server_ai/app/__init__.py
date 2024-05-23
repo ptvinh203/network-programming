@@ -3,7 +3,6 @@ from uuid import uuid4
 
 from deepface import DeepFace
 from flask import Blueprint, request
-
 from utils.response import AppResponse
 
 app_bp = Blueprint("app", __name__, url_prefix="/api/v1")
@@ -22,12 +21,19 @@ def app_process(base_img, compare_img):
     compare_img.save(compare_img_dir)
 
     # Verify images
-    return DeepFace.verify(
+    result = DeepFace.verify(
         base_img_dir,
         compare_img_dir,
-        model_name="Facenet512",
         enforce_detection=False,
+        model_name="Facenet512",
+        detector_backend="yolov8",
+        distance_metric="euclidean_l2",
     )
+
+    return {
+        "verified": result.get("verified", False),
+        "distance": round(result.get("distance", 0), 3),
+    }
 
 
 @app_bp.route("", methods=["POST"])
