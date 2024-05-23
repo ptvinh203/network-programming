@@ -111,7 +111,7 @@
               <span class="font-medium text-gray-700">
                 Already have an account?
                 <a
-                  href="/web/login"
+                  href="/web"
                   class="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   Sign in

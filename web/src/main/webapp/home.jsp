@@ -150,9 +150,9 @@
             List<RequestDto> requestDtoList = (List<RequestDto>)request.getSession().getAttribute("requestDtoList");
             if (requestDtoList != null && requestDtoList.size () >0) {
               for (RequestDto requestDto : requestDtoList) {
-
+                requestDto.setFirstImage("http://127.0.0.1:8081/" + requestDto.getFirstImage());
+                requestDto.setSecondImage("http://127.0.0.1:8081/" + requestDto.getSecondImage());
           %>
-            <div><%= requestDto.getFirstImage()%></div>
             <div class="p-2 flex flex-col border-b">
               <div class="flex flex-row gap-2 item-center justify-between">
                 <div>
@@ -169,8 +169,17 @@
               </div>
 
               <div class="flex flex-row gap-2 item-center justify-between">
-                <p>Result:</p>
-                <p>Distance:</p>
+                <% if (requestDto.isResultNull()) { %>
+                  <p>Result: Processing...</p>
+                <% } else {%>
+                  <p>Result: <%= requestDto.isResult()%></p>
+                <% } %>
+
+                <% if (requestDto.isDistanceNull()) { %>
+                  <p>Distance: Processing...</p>
+                <% } else {%>
+                  <p>Distance: <%= requestDto.getDistanceValue()%></p>
+                <% } %>
               </div>
             </div>
           <%

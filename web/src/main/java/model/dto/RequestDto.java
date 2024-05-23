@@ -23,8 +23,20 @@ public class RequestDto extends BaseDto<RequestBean> {
     private Double distance;
     private Timestamp createdAt;
 
+    public boolean isResultNull() {
+        return this.result == null;
+    }
+
+    public boolean isDistanceNull() {
+        return this.distance == null;
+    }
+
     public boolean isResult() {
         return this.result != null && this.result;
+    }
+
+    public double getDistanceValue() {
+        return this.distance != null ? this.distance : 0;
     }
 
     @Override

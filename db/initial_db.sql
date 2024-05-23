@@ -1,8 +1,8 @@
 CREATE TABLE public.requests (
     id character varying(300) NOT NULL,
     user_id character varying(300) NOT NULL,
-    first_image character varying(300) NOT NULL,
-    second_image character varying(300) NOT NULL,
+    first_image character varying(300) DEFAULT 'no-image.png',
+    second_image character varying(300) DEFAULT 'no-image.png',
     result boolean ,
     distance numeric ,
     created_at timestamp with time zone NOT NULL

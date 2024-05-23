@@ -29,7 +29,7 @@ public class RequestServlet extends HttpServlet {
         String userId = ((UserDto) req.getSession().getAttribute("current_user")).getId();
         try {
             requestBo.create(userId, baseImg, compareImg);
-            resp.sendRedirect("home.jsp");
+            resp.sendRedirect("/web/home");
         } catch (Exception e) {
             resp.sendRedirect(String.format("/web/home?error-message=%s", e.getMessage()));
             return;

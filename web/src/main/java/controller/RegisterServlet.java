@@ -41,7 +41,7 @@ public class RegisterServlet extends HttpServlet {
             }
             // Register
             userBo.register(email, confirmPassword, name);
-            resp.sendRedirect("login");
+            resp.sendRedirect(".");
         } catch (Exception e) {
             resp.sendRedirect(String.format("/web/register?error-message=%s", e.getMessage()));
             return;

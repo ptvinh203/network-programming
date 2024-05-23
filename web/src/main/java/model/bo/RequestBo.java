@@ -23,6 +23,7 @@ import repository.RequestRepository;
 import utils.CommonConstant;
 import java.util.Map;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class RequestBo {
     // Singleton
@@ -30,7 +31,9 @@ public class RequestBo {
 
     private RequestBo() {
         requestRepository = RequestRepository.getInstance();
-        client = new OkHttpClient().newBuilder().build();
+        client = new OkHttpClient.Builder()
+                .connectTimeout(0, TimeUnit.MILLISECONDS)
+                .build();
     }
 
     public static RequestBo getInstance() {
@@ -72,8 +75,8 @@ public class RequestBo {
             RequestBean result = requestRepository.create(
                     RequestBean.builder()
                             .user(UserBean.builder().id(userId).build())
-                            .firstImage(firstFile.getPath())
-                            .secondImage(secondFile.getPath())
+                            .firstImage("no-image.png")
+                            .secondImage("no-image.png")
                             .result(null)
                             .distance(null)
                             .build());
@@ -97,12 +100,15 @@ public class RequestBo {
 
                     // Read the response body once
                     String responseBody = execute.body().string();
+                    System.out.println("Response: " + responseBody);
 
                     // Convert to map
                     ObjectMapper mapper = new ObjectMapper();
                     Map<String, Object> response = mapper.readValue(responseBody, Map.class);
+                    result.setFirstImage((String) response.get("base_img"));
+                    result.setSecondImage((String) response.get("compare_img"));
                     result.setDistance((Double) response.get("distance"));
-                    result.setResult((Boolean) response.get("result"));
+                    result.setResult((Boolean) response.get("verified"));
                     requestRepository.update(result);
                 } catch (Exception e) {
                     e.printStackTrace();

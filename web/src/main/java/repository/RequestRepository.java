@@ -25,7 +25,8 @@ public class RequestRepository extends BaseRepository<RequestBean, String> {
     public List<RequestBean> getAllByUserId(String userId) {
         try (Session session = sessionFactory.openSession()) {
             return session
-                    .createQuery("FROM RequestBean r WHERE r.user.id = :userId", RequestBean.class)
+                    .createQuery("FROM RequestBean r WHERE r.user.id = :userId ORDER BY r.createdAt DESC",
+                            RequestBean.class)
                     .setParameter("userId", userId).getResultList();
         }
     }
